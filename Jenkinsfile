@@ -1,35 +1,31 @@
 pipeline {
     agent any
+
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/Haniaa01/snakegame-gui'
             }
         }
 
-        stage('Build and Test') {
-            agent { label 'docker-capable' } // agent musi mieć zainstalowanego Dockera
+        stage('Build') {
             steps {
-                script {
-                    docker.image('python:3.8').inside('-v $WORKSPACE:/workspace') {
-                        sh 'pip install -r requirements.txt'
-                        sh 'python -m unittest discover'
-                    }
-                }
+                sh 'docker-compose up --build'
             }
         }
+
     }
 
     post {
-        always {
-            archiveArtifacts artifacts: '**/*.log', fingerprint: true
-            junit '**/test-reports/*.xml'
-        }
         success {
-            echo 'Build and tests succeeded!'
+            echo 'Budowa zakończona sukcesem!'
         }
         failure {
-            echo 'Build or tests failed.'
+            echo 'Budowa nie powiodła się.'
         }
     }
 }

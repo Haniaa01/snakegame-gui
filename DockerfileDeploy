@@ -5,11 +5,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Upewnij się, że pytest jest zainstalowany
 RUN pip install pytest
 
 COPY . .
 
-# Ustaw CMD na jakiś plik lub polecenie, które faktycznie istnieje
 CMD ["pytest"]
 

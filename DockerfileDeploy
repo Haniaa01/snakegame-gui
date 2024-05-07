@@ -9,5 +9,5 @@ RUN pip install pytest
 
 COPY . .
 
-CMD ["pytest"]
+CMD ["python", "pysnake.py"]
 

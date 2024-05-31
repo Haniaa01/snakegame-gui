@@ -7,6 +7,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+CMD watch -n 60 ./pysnake.py
+
 CMD ["python", "pysnake.py"]
 
 
